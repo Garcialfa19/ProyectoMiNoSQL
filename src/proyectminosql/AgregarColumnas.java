@@ -125,9 +125,10 @@ public class AgregarColumnas extends javax.swing.JDialog {
             @Override
                     public void actionPerformed(ActionEvent e) {
                         System.out.println("boton presionado");
-                         //panelColumna.remove(nom);
-                         //columnas.remove(nom);
-                         //panelColumna.remove(boton);
+                         panelColumna.remove(nom);
+                         columnas.remove(nom);
+                         panelColumna.remove(boton);
+                         panelColumna.updateUI();
                     }
        });
        
@@ -145,9 +146,8 @@ public class AgregarColumnas extends javax.swing.JDialog {
            System.out.println(txt.getText());
                 dtm.addColumn(txt.getText());
        }
-                
-            
-          
+       dispose();
+
        //     ventana.tabla.updateUI();
        
         
