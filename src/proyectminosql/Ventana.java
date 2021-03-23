@@ -12,6 +12,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  *
  * @author gigabyte
@@ -20,9 +23,11 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
     int i;
     int[] indice;
     String ubicacion;
+    private List<Esquema> esquemas;
     public Ventana() {
         this.ubicacion = System.getProperty("user.dir");
         initComponents();
+        esquemas = new ArrayList<Esquema>();
     
     }
 
@@ -294,9 +299,18 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
       // comboTabla.setEnabled(false);
       // textTabla.setEnabled(false);
      //}
-        
+     int selectedEsquema = comboEsquema.getSelectedIndex();
+     buildTablas(selectedEsquema);
     }//GEN-LAST:event_comboEsquemaActionPerformed
 
+    private void buildTablas(int selectedEsquema) {
+        comboTabla.removeAllItems();
+        List<Tabla> tablas = esquemas.get(selectedEsquema).getTablas();
+        for(int x = 0; x < tablas.size(); x++) {
+            comboTabla.addItem(tablas.get(x).getName());
+        }
+    }
+    
     private void textEsquemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textEsquemaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textEsquemaActionPerformed
@@ -307,6 +321,11 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
         ObservableList<String> comboContentDos=
         FXCollections.observableArrayList();
         String ttabla=textTabla.getText();
+        Tabla newTabla = new Tabla(ttabla, new ArrayList<Columna>());
+        int selectedEsquema = comboEsquema.getSelectedIndex();
+        List<Tabla> tablas = esquemas.get(selectedEsquema).getTablas();
+        tablas.add(newTabla);
+        esquemas.get(selectedEsquema).setTablas(tablas);
         comboContentDos.add(ttabla);
         comboTabla.setSelectedItem(ttabla);
         comboTabla.addItem(ttabla);
@@ -331,6 +350,8 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
         ObservableList<String> comboContentUno=
         FXCollections.observableArrayList();
         String esquema=textEsquema.getText();
+        Esquema newEsquema = new Esquema(esquema, new ArrayList<Tabla>());
+        esquemas.add(newEsquema);
         comboContentUno.add(esquema);
         comboEsquema.addItem(esquema);
         comboEsquema.setSelectedItem(esquema);
@@ -350,8 +371,13 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
         // TODO add your handling code here:
         int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea elminar el esquema?", "Alerta!", JOptionPane.YES_NO_OPTION);
         if (resp==JOptionPane.YES_OPTION){
-       String esquema= (String) comboEsquema.getSelectedItem();
-        comboEsquema.removeItem(esquema);
+            int selectedEsquema = comboEsquema.getSelectedIndex();
+            esquemas.remove(selectedEsquema);
+            String esquema= (String) comboEsquema.getSelectedItem();
+            comboEsquema.removeItem(esquema);
+            
+            int newSelectedEsquema = comboEsquema.getSelectedIndex();
+            buildTablas(newSelectedEsquema);
         }
     }//GEN-LAST:event_buttonBorrarEsquemaActionPerformed
 
@@ -359,8 +385,13 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
         // TODO add your handling code here:
         int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea elminar la tabla?", "Alerta!", JOptionPane.YES_NO_OPTION);
         if (resp==JOptionPane.YES_OPTION){
-        String tablas=(String) comboTabla.getSelectedItem();
-        comboTabla.removeItem(tablas);
+            String tabla=(String) comboTabla.getSelectedItem();
+            int selectedEsquema = comboEsquema.getSelectedIndex();
+            int selectedTabla = comboTabla.getSelectedIndex();
+            comboTabla.removeItem(tabla);
+            List<Tabla> tablas = esquemas.get(selectedEsquema).getTablas();
+            tablas.remove(selectedTabla);
+            esquemas.get(selectedEsquema).setTablas(tablas);
         }
     }//GEN-LAST:event_buttonBorrarTablaActionPerformed
 
