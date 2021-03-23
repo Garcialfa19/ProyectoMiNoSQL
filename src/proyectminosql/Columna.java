@@ -5,10 +5,6 @@
  */
 package proyectminosql;
 
-/**
- *
- * @author gabrielsanchez
- */
 public class Columna {
     private String name;
     

@@ -11,8 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 
 /**
@@ -27,7 +25,9 @@ public class AgregarColumnas extends javax.swing.JDialog {
     /**
      * Creates new form AgregarColumnas
      */
-   
+    public AgregarColumnas(){
+        
+    }
     public AgregarColumnas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();

@@ -8,10 +8,6 @@ package proyectminosql;
 import java.util.List;
 import java.util.ArrayList;
 
-/**
- *
- * @author gabrielsanchez
- */
 public class Esquema {
     private String name;
     private List<Tabla> tablas;

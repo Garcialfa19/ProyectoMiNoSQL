@@ -11,9 +11,13 @@ import javafx.collections.ObservableList;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import java.util.List;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -23,12 +27,14 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
     int i;
     int[] indice;
     String ubicacion;
+    int columnaSeleccionada;
     private List<Esquema> esquemas;
+    TableRowSorter trs;
+    
     public Ventana() {
         this.ubicacion = System.getProperty("user.dir");
         initComponents();
         esquemas = new ArrayList<Esquema>();
-    
     }
 
     /**
@@ -53,7 +59,6 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
         jLabel1 = new javax.swing.JLabel();
         buttonCargarTodos = new javax.swing.JButton();
         buttonBorrarFila = new javax.swing.JButton();
-        buttonBuscarColumna = new javax.swing.JButton();
         comboColumas = new javax.swing.JComboBox<>();
         textBuscarColumna = new javax.swing.JTextField();
         textBuscarComando = new javax.swing.JTextField();
@@ -90,6 +95,7 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {},
                 {},
                 {},
                 {},
@@ -175,22 +181,25 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
             }
         });
 
-        buttonBuscarColumna.setText("Buscar");
-        buttonBuscarColumna.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonBuscarColumnaActionPerformed(evt);
-            }
-        });
-
         comboColumas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboColumasActionPerformed(evt);
             }
         });
 
+        textBuscarColumna.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                textBuscarColumnaCaretUpdate(evt);
+            }
+        });
         textBuscarColumna.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textBuscarColumnaActionPerformed(evt);
+            }
+        });
+        textBuscarColumna.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textBuscarColumnaKeyTyped(evt);
             }
         });
 
@@ -215,17 +224,6 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(comboColumas, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(textBuscarColumna)
-                        .addGap(18, 18, 18)
-                        .addComponent(buttonBuscarColumna, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
-                        .addComponent(buttonBorrarFila, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45)
-                        .addComponent(buttonCargarTodos, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -249,10 +247,20 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 877, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(textBuscarComando)
-                            .addGap(18, 18, 18)
-                            .addComponent(buttonBuscarComando, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(356, 356, 356)))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(comboColumas, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(textBuscarColumna))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(textBuscarComando)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(buttonBuscarComando, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(27, 27, 27)
+                            .addComponent(buttonBorrarFila, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(45, 45, 45)
+                            .addComponent(buttonCargarTodos, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap()))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -278,7 +286,6 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonCargarTodos)
                     .addComponent(buttonBorrarFila)
-                    .addComponent(buttonBuscarColumna)
                     .addComponent(comboColumas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textBuscarColumna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -349,17 +356,14 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
 
         ObservableList<String> comboContentUno=
         FXCollections.observableArrayList();
-        String esquema=textEsquema.getText();
-        Esquema newEsquema = new Esquema(esquema, new ArrayList<Tabla>());
+        String esquema=textEsquema.getText();  // obtiene el texto para el nombre del esquema
+        Esquema newEsquema = new Esquema(esquema, new ArrayList<Tabla>()); // crea y nombra el esquema
         esquemas.add(newEsquema);
         comboContentUno.add(esquema);
         comboEsquema.addItem(esquema);
         comboEsquema.setSelectedItem(esquema);
-        textEsquema.setText("");
-        i++;
-       // indice[i];
-        
-       
+        textEsquema.setText("");   // limpia el campo de texto para poder agregar otro esquema
+        i++;    
     }//GEN-LAST:event_buttonEsquemaActionPerformed
 
     private void comboTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTablaActionPerformed
@@ -395,10 +399,6 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
         }
     }//GEN-LAST:event_buttonBorrarTablaActionPerformed
 
-    private void buttonBuscarColumnaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuscarColumnaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonBuscarColumnaActionPerformed
-
     private void textTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textTablaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textTablaActionPerformed
@@ -410,15 +410,20 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
     private void textBuscarColumnaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textBuscarColumnaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textBuscarColumnaActionPerformed
-
+    
+   void eliminar(){
+      DefaultTableModel dtm = (DefaultTableModel) Ventana.tabla.getModel();
+      int fila=tabla.getSelectedRow();
+      dtm.removeRow(fila);
+      dtm.addRow(new Object[]{" "});
+   }
     private void buttonBorrarFilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBorrarFilaActionPerformed
-        // TODO add your handling code here:
+
+        eliminar();
     }//GEN-LAST:event_buttonBorrarFilaActionPerformed
 
     private void buttonCargarTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCargarTodosActionPerformed
-        // TODO add your handling code here:
        
-        
     }//GEN-LAST:event_buttonCargarTodosActionPerformed
 
     private void textBuscarComandoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textBuscarComandoActionPerformed
@@ -434,14 +439,25 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
     }//GEN-LAST:event_tablaAncestorAdded
 
     private void tablaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaKeyPressed
-     //  DefaultTableModel dtm = (DefaultTableModel) tabla.getModel();
-        
-      //  if(evt.getKeyCode() == KeyEvent.VK_ENTER)
-     //   {
-     //     dtm.addRow(new Object[]{});
-     //   }
-     //   tabla.updateUI();
+    
     }//GEN-LAST:event_tablaKeyPressed
+
+    private void textBuscarColumnaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_textBuscarColumnaCaretUpdate
+        
+    }//GEN-LAST:event_textBuscarColumnaCaretUpdate
+
+    private void textBuscarColumnaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textBuscarColumnaKeyTyped
+        DefaultTableModel dtm = (DefaultTableModel) Ventana.tabla.getModel(); 
+        columnaSeleccionada= comboColumas.getSelectedIndex();
+        textBuscarColumna.addKeyListener(new KeyAdapter(){
+            @Override
+           public void keyReleased(final KeyEvent evt) {
+             trs.setRowFilter(RowFilter.regexFilter("(?i)"+textBuscarColumna.getText(), columnaSeleccionada));
+           }     
+    });
+        trs=new TableRowSorter(dtm);
+        tabla.setRowSorter(trs);
+    }//GEN-LAST:event_textBuscarColumnaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -482,7 +498,6 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JButton buttonBorrarEsquema;
     private javax.swing.JButton buttonBorrarFila;
     private javax.swing.JButton buttonBorrarTabla;
-    private javax.swing.JButton buttonBuscarColumna;
     private javax.swing.JButton buttonBuscarComando;
     private javax.swing.JButton buttonCargarTodos;
     private javax.swing.JButton buttonEsquema;
