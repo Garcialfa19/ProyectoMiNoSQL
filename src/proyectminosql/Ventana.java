@@ -85,43 +85,28 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "ID"
+
             }
         ));
         tabla.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
@@ -282,9 +267,9 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
                             .addComponent(buttonTabla)
                             .addComponent(buttonBorrarTabla)))
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonCargarTodos)
                     .addComponent(buttonBorrarFila)
@@ -328,17 +313,17 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
         textTabla.setText("");
         AgregarColumnas columna= new AgregarColumnas(this,true);
         columna.setVisible(true);
-        columna.listo.addActionListener(new ActionListener(){
-            @Override
-                    public void actionPerformed(ActionEvent e) {
-                             for(JLabel txt:columna.columnas){
-                              System.out.println(txt.getText());
+       // columna.listo.addActionListener(new ActionListener(){
+        //    @Override
+        //            public void actionPerformed(ActionEvent e) {
+        //                     for(JLabel txt:columna.columnas){
+        //                      System.out.println(txt.getText());
            
-        }
-        columna.listo.updateUI();
+       // }
+       // columna.listo.updateUI();
         
-   }
-                    });
+   //}
+                   // });
     }//GEN-LAST:event_buttonTablaActionPerformed
 
     private void buttonEsquemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEsquemaActionPerformed
@@ -471,7 +456,7 @@ public class Ventana extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JButton buttonCargarTodos;
     private javax.swing.JButton buttonEsquema;
     private javax.swing.JButton buttonTabla;
-    private javax.swing.JComboBox<String> comboColumas;
+    public static javax.swing.JComboBox<String> comboColumas;
     private javax.swing.JComboBox<String> comboEsquema;
     private javax.swing.JComboBox<String> comboTabla;
     private javax.swing.JLabel jLabel1;

@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 
 /**
@@ -142,9 +144,12 @@ public class AgregarColumnas extends javax.swing.JDialog {
     private void listoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listoActionPerformed
        
        DefaultTableModel dtm = (DefaultTableModel) Ventana.tabla.getModel();
+       
        for(JLabel txt:columnas){
            System.out.println(txt.getText());
                 dtm.addColumn(txt.getText());
+                Ventana.comboColumas.addItem(txt.getText());
+                
        }
        dispose();
 
